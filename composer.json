@@ -1,0 +1,13 @@
+{
+    "name": "axllent/geoiplookup2",
+    "description": "PHP replacement for geoiplookup for GeoLite2",
+    "type": "project",
+    "require": {
+        "symfony/console": "^3.4",
+        "symfony/filesystem": "^3.4",
+        "geoip2/geoip2": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {"App\\": "src/"}
+    }
+}
