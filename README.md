@@ -4,13 +4,13 @@ A simple drop-in replacement for the standard `geoiplookup` to use the free
 **[GeoLite2 Country](https://dev.maxmind.com/geoip/geoip2/geolite2/)** database.
 It is written in PHP and provides a cli binary Phar (executable) file for easy use.
 
-It integrates `symfony/console` and `geoip2/geoip2` libraries.
+Geoiplookup2 integrates `symfony/console` and `geoip2/geoip2` open source libraries.
 
 
 ## Requirements
 
 - php-cli (>=5.6) with at least the following modules: php-phar, php-curl, php-openssl, php-json & php-iconv
-- GeoLite2 Country database (can be downloaded/updated via geoiplookup)
+- GeoLite2 Country database (downloaded/updated via `geoiplookup`)
 
 
 ## Installing
@@ -25,7 +25,7 @@ into the current directory. If you don't have permission to write to the directo
 
 ## Usage
 
-See `geoiplookup -h` for all options
+See `geoiplookup -h` for all options.
 
 ```shell
 $ geoiplookup 8.8.8.8
@@ -44,10 +44,11 @@ US
 $ geoiplookup update
 ```
 
-By default the update command will try move the database to /usr/share/GeoIP/GeoLite2-Country.mmdb`. If the user executing
-the update does not have access to write to the file / directory then `sudo` is called.
+By default the update command will try move the database to `/usr/share/GeoIP/GeoLite2-Country.mmdb`. If the user executing
+the update does not have access to write to the file or directory then `sudo` is called.
 
-## Building the phar
+
+## Building the binary
 
 In most cases you can just run:
 
@@ -55,4 +56,4 @@ In most cases you can just run:
 sh build.sh
 ```
 
-And this will download `box` and build `geoiplookup.phar` automatically.
+And this will download `box`, use `composer` to install the required packages, and build `geoiplookup.phar`.
