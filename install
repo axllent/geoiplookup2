@@ -1,0 +1,62 @@
+<?php
+
+if (!empty($_SERVER['argv'][1])) {
+    $destFolderArg = $_SERVER['argv'][1];
+    $CLI_destFolderArg = escapeshellarg($destFolderArg);
+    // Rationalise destfolder (parse ~, etc)
+    $destFolder = trim(`cd $CLI_destFolderArg && pwd`);
+    if (!$destFolder) {
+        echo "ERROR: Can't find folder $destFolderArg!\n";
+        die();
+    }
+} else {
+    $destFolder = getcwd();
+}
+
+// Download the file
+$opts = [
+    'http' => [
+        'method' => 'GET',
+        'header' => [
+            'User-Agent: PHP',
+        ],
+    ],
+];
+$options = stream_context_create($opts);
+$latest = json_decode(file_get_contents('https://api.github.com/repos/axllent/geoiplookup2/releases/latest', false, $options), true);
+
+if (!is_array($latest) || empty($latest['assets'])) {
+    die('Unable to get latest release from github');
+}
+
+$url = false;
+
+foreach ($latest['assets'] as $file) {
+    if ($file['name'] == 'geoiplookup.phar') {
+        $url = $file['browser_download_url'];
+        continue;
+    }
+}
+
+if (!$url) {
+    die("Unable to get latest release. Please refer to to https://github.co.nz/axllent/geoiplookup2\n");
+}
+
+echo "Downloading...\n";
+$phar = file_get_contents($url);
+
+// Write to /tmp
+echo "Writing to /tmp/geoiplookup...\n";
+file_put_contents('/tmp/geoiplookup', $phar);
+chmod('/tmp/geoiplookup', 02775);
+
+echo 'Copying to ' . realpath($destFolder) . '...';
+
+// Write directly, or via sudo, depending on access writes
+if (is_writable($destFolder)) {
+    rename('/tmp/geoiplookup', "$destFolder/geoiplookup");
+} else {
+    passthru('sudo mv /tmp/geoiplookup ' . escapeshellarg($destFolder));
+}
+
+echo "\nDone! Run 'geoiplookup -h' to get started.\n\n";
