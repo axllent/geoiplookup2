@@ -1,4 +1,4 @@
-# Geoiplookup2 - geoiplookup for GeoLite2 Country (mmdb)
+# Geoiplookup2 for GeoLite2 Country (mmdb)
 
 A simple drop-in replacement for the standard `geoiplookup` to use the free
 **[GeoLite2 Country](https://dev.maxmind.com/geoip/geoip2/geolite2/)** mmdb database.
