@@ -59,4 +59,4 @@ if (is_writable($destFolder)) {
     passthru('sudo mv /tmp/geoiplookup ' . escapeshellarg($destFolder));
 }
 
-echo "\nDone! Run 'geoiplookup -h' to get started.\n\n";
+echo "\nDone! Run '" . realpath($destFolder) . "/geoiplookup -h' to get started.\n\n";
