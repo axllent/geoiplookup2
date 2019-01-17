@@ -84,18 +84,23 @@ class GeoipLookup2 extends Command
         $file = $this->getDBFile($input, $output);
 
         if (!$file) {
+            $output->writeln(
+                '<error>GeoLite2 Country database not found. Please run:</error> geoiplookup update'
+            );
             return 1;
         }
+
+        $country = $input->getOption('country');
+        $iso = $input->getOption('iso');
 
         $reader = new Reader($file);
 
         try {
             $record = $reader->country($ip);
         } catch (\Exception $e) {
-            $output->writeln(
-                sprintf('<error>%s is not a valid GeoLite2 country database.</error>', $ip),
-                OutputInterface::VERBOSITY_VERBOSE
-            );
+            if (!$country && !$iso) {
+                $output->writeln('GeoIP Country Edition: IP Address not found');
+            }
             return 1; // exit status
         }
 
@@ -112,9 +117,6 @@ class GeoipLookup2 extends Command
             $ciso = $record->country->isoCode;
         }
 
-        $country = $input->getOption('country');
-        $iso = $input->getOption('iso');
-
         if ($country || $iso) {
             if ($country) {
                 $output->writeln($cname);
@@ -123,7 +125,10 @@ class GeoipLookup2 extends Command
                 $output->writeln($ciso);
             }
         } else {
-            $output->writeln('GeoIP Country Edition: ' . $ciso . ', ' . $cname);
+
+            strlen($ciso) == 2 ?
+                $output->writeln('GeoIP Country Edition: ' . $ciso . ', ' . $cname) :
+                $output->writeln('GeoIP Country Edition: IP Address not found');
         }
         return 0; // exit status
     }
