@@ -6,6 +6,13 @@ It is written in PHP and provides a cli binary Phar (executable) file for easy u
 
 Geoiplookup2 integrates `symfony/console` and `geoip2/geoip2` open source libraries.
 
+## Features
+
+- Drop in replacement for the legacy `geoiplookup` tool
+- Built-in functionality to update GeoLite2-Country (free) database
+- Supports IPv4, IPv6 and FQDN
+- Allow return of just the country name or ISO code (see options)
+
 
 ## Requirements
 
