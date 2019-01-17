@@ -1,5 +1,4 @@
 {
-    "chmod": "0755",
     "main": "src/App.php",
     "compression": "GZ",
     "output": "geoiplookup.phar",
