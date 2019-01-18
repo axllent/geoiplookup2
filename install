@@ -13,7 +13,7 @@ if (!empty($_SERVER['argv'][1])) {
     $destFolder = getcwd();
 }
 
-// Download the file
+// Github doesn't allow API requests without User-Agent
 $opts = [
     'http' => [
         'method' => 'GET',
@@ -48,7 +48,7 @@ $phar = file_get_contents($url);
 // Write to /tmp
 echo "Writing to /tmp/geoiplookup...\n";
 file_put_contents('/tmp/geoiplookup', $phar);
-chmod('/tmp/geoiplookup', 02775);
+chmod('/tmp/geoiplookup', 0755);
 
 echo 'Copying to ' . realpath($destFolder) . '...';
 
